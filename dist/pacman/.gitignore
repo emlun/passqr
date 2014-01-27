@@ -1,0 +1,6 @@
+# Stuff built by makepkg
+pkg/
+src/
+passqr-*.tar.xz
+passqr-*.src.tar.gz
+passqr/
