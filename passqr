@@ -1,0 +1,58 @@
+#!/bin/bash
+#
+# Copyright 2014 Emil Lundberg <lundberg.emil@gmail.com>. All rights reserved.
+#
+# This file is part of passqr.
+#
+# passqr is free software: you can redistribute it and/or modify it under the
+# terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 2 of the License, or (at your option) any later
+# version.
+#
+# passqr is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+# A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# passqr. If not, see <http://www.gnu.org/licenses/>.
+
+GETOPT=getopt
+VIEWER_EXEC='display -'
+program="$(basename "$0")"
+timeout=3
+pixelsize=6
+verbose=false
+
+ARGS="$($GETOPT -o t:v -l timeout:verbose -n "$program" -- "$@")"
+if [[ $? -ne 0 ]]; then
+    echo "Usage: ${program} [-t,--timeout SECONDS] [-v,--verbose] PASS_PATH"
+    exit 1
+fi
+
+eval set -- "$ARGS"
+while true; do case $1 in
+    -t|--timeout)
+        shift
+        timeout=$1
+        shift
+        ;;
+    -v|--verbose)
+        verbose=true
+        shift
+        ;;
+    --)
+        shift
+        break
+        ;;
+esac done
+
+pass_cmd="pass show $@"
+if output=$($pass_cmd); then
+    if $verbose; then
+        echo "Encoding first line of output of '${pass_cmd}'"
+    fi
+    output=$(echo "$output" | head -n1)
+    qrencode -s $pixelsize -t PNG -o - "$output" | $VIEWER_EXEC - &
+    sleep $timeout
+    kill $! 2>/dev/null
+fi
