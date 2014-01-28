@@ -49,10 +49,15 @@ Options (defaults):
     Output information about what the program is doing. This may include
     sensitive information such as pass-name.
 
+  -w, --viewer 'COMMAND' ('display -')
+    Pipe QR code image into COMMAND for display. COMMAND is expected to read the
+    image from stdin. If COMMAND is '-', then print the image to stdout instead
+    of displaying it.
+
 EOF
 }
 
-ARGS="$($GETOPT -o c:ht:v -l config:,help,timeout:,verbose -n "$PROGRAM" -- "$@")"
+ARGS="$($GETOPT -o c:ht:vw: -l config:,help,timeout:,verbose,viewer: -n "$PROGRAM" -- "$@")"
 if [[ $? -ne 0 ]]; then
     usage
     exit 1
@@ -103,6 +108,10 @@ while true; do
             ;;
         -v|--verbose)
             VERBOSE=true
+            ;;
+        -w|--viewer)
+            shift
+            VIEWER_EXEC="$1"
             ;;
         --)
             shift
