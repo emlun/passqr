@@ -69,6 +69,9 @@ Options (defaults):
   -m, --multiline
     Encode all output from pass, not just the first line.
 
+  -s, --dotsize PIXELS (${DOTSIZE})
+    Pass-through option to qrencode (there it is -s, --size).
+
   -t, --timeout SECONDS (${TIMEOUT})
     Wait SECONDS seconds before closing the image viewer. Overrides any settings
     in config files.
@@ -99,7 +102,7 @@ by Emil Lundberg <lundberg.emil@gmail.com>
 EOF
 }
 
-ARGS="$($GETOPT -o c:hmt:vw: -l config:,help,multiline,timeout:,verbose,version,viewer: -n "$PROGRAM" -- "$@")"
+ARGS="$($GETOPT -o c:s:hmt:vw: -l config:,dotsize:,help,multiline,timeout:,verbose,version,viewer: -n "$PROGRAM" -- "$@")"
 if [[ $? -ne 0 ]]; then
     usage
     exit 1
@@ -146,6 +149,10 @@ done
 eval set -- "$ARGS"
 while true; do
     case $1 in
+        -s|--dotsize)
+            shift
+            DOTSIZE=$1
+            ;;
         -m|--multiline)
             MULTILINE=true
             ;;
