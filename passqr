@@ -49,6 +49,13 @@ while true; do
     shift
 done
 
+if [[ $# -eq 0 ]]; then
+    # Must have a pass-name to pass to pass
+    echo "Fatal: no pass-name given"
+    usage
+    exit 1
+fi
+
 for config_file in "${CONFIG[@]}"; do
     if [[ -f "$config_file" ]]; then
         if $VERBOSE; then
