@@ -28,9 +28,30 @@ TIMEOUT=3
 VERBOSE=false
 VIEWER_EXEC='display -'
 
+usage() {
+cat << EOF
+Usage: ${PROGRAM} [options] pass-name
+
+Options:
+
+  -c, --config FILE
+    Add FILE to the list of config files to source. Can be specified multiple
+    times, later files override earlier ones.
+
+  -t, --timeout SECONDS
+    Wait SECONDS seconds before closing the image viewer. Overrides any settings
+    in config files.
+
+  -v, --verbose
+    Output information about what the program is doing. This may include
+    sensitive information such as pass-name.
+
+EOF
+}
+
 ARGS="$($GETOPT -o c:t:v -l config:,timeout:,verbose -n "$PROGRAM" -- "$@")"
 if [[ $? -ne 0 ]]; then
-    echo "Usage: ${PROGRAM} [-t,--timeout SECONDS] [-v,--verbose] PASS_PATH"
+    usage
     exit 1
 fi
 
