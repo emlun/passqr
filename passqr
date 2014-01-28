@@ -18,6 +18,7 @@
 
 GETOPT=getopt
 PROGRAM="$(basename "$0")"
+VERSION=1.0.0
 CONFIG=(
     '/etc/passqr.conf'
     "${HOME}/.config/passqr.conf"
@@ -61,6 +62,9 @@ Options (defaults):
     Output information about what the program is doing. This may include
     sensitive information such as pass-name.
 
+  --version
+    Output version information and exit.
+
   -w, --viewer 'COMMAND' ('feh -' or 'display -')
     Pipe QR code image into COMMAND for display. COMMAND is expected to read the
     image from stdin. If COMMAND is '-', then print the image to stdout instead
@@ -73,7 +77,14 @@ Options (defaults):
 EOF
 }
 
-ARGS="$($GETOPT -o c:ht:vw: -l config:,help,timeout:,verbose,viewer: -n "$PROGRAM" -- "$@")"
+version() {
+cat << EOF
+Password Store QR add-on, version ${VERSION}
+by Emil Lundberg <lundberg.emil@gmail.com>
+EOF
+}
+
+ARGS="$($GETOPT -o c:ht:vw: -l config:,help,timeout:,verbose,version,viewer: -n "$PROGRAM" -- "$@")"
 if [[ $? -ne 0 ]]; then
     usage
     exit 1
@@ -88,6 +99,10 @@ while true; do
             ;;
         -h|--help)
             usage
+            exit 0
+            ;;
+        --version)
+            version
             exit 0
             ;;
         --)
