@@ -26,7 +26,19 @@ CONFIG=(
 PIXELSIZE=6
 TIMEOUT=3
 VERBOSE=false
-VIEWER_EXEC='display -'
+VIEWER_EXEC=''
+
+find_viewer() {
+    if hash feh 2>/dev/null; then
+        VIEWER_EXEC='feh -'
+    elif hash display 2>/dev/null; then
+        VIEWER_EXEC='display -'
+    else
+        echo "Fatal: Could not find any image viewer"
+        echo "Please install one and set VIEWER_EXEC in the config file."
+        exit 1
+    fi
+}
 
 usage() {
 cat << EOF
@@ -49,10 +61,14 @@ Options (defaults):
     Output information about what the program is doing. This may include
     sensitive information such as pass-name.
 
-  -w, --viewer 'COMMAND' ('display -')
+  -w, --viewer 'COMMAND' ('feh -' or 'display -')
     Pipe QR code image into COMMAND for display. COMMAND is expected to read the
     image from stdin. If COMMAND is '-', then print the image to stdout instead
     of displaying it.
+
+    If no config file specifies a viewer command and this option is not given,
+    ${PROGRAM} will look for 'feh' and 'display'. If none is found, the program
+    shows an error message and exits with nonzero exit code.
 
 EOF
 }
@@ -120,6 +136,10 @@ while true; do
     esac
     shift
 done
+
+if [[ -z "$VIEWER_EXEC" ]]; then
+    find_viewer
+fi
 
 pass_cmd="pass show $@"
 if output=$($pass_cmd); then
