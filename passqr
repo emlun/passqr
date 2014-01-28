@@ -23,7 +23,7 @@ timeout=3
 pixelsize=6
 verbose=false
 
-ARGS="$($GETOPT -o t:v -l timeout:verbose -n "$program" -- "$@")"
+ARGS="$($GETOPT -o t:v -l timeout:,verbose -n "$program" -- "$@")"
 if [[ $? -ne 0 ]]; then
     echo "Usage: ${program} [-t,--timeout SECONDS] [-v,--verbose] PASS_PATH"
     exit 1
