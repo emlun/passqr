@@ -118,7 +118,12 @@ if output=$($pass_cmd); then
         echo "Encoding first line of output of '${pass_cmd}'"
     fi
     output=$(echo "$output" | head -n1)
-    qrencode -s $PIXELSIZE -t PNG -o - "$output" | $VIEWER_EXEC - &
-    sleep $TIMEOUT
-    kill $! 2>/dev/null
+    encode_cmd="qrencode -s $PIXELSIZE -t PNG -o - $output"
+    if [[ "$VIEWER_EXEC" == '-' ]]; then
+        $encode_cmd
+    else
+        $encode_cmd | $VIEWER_EXEC - &
+        sleep $TIMEOUT
+        kill $! 2>/dev/null
+    fi
 fi
