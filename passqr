@@ -32,7 +32,7 @@ usage() {
 cat << EOF
 Usage: ${PROGRAM} [options] pass-name
 
-Options:
+Options (defaults):
 
   -c, --config FILE
     Add FILE to the list of config files to source. Can be specified multiple
@@ -41,7 +41,7 @@ Options:
   -h, --help
     Show this message and exit.
 
-  -t, --timeout SECONDS
+  -t, --timeout SECONDS (3)
     Wait SECONDS seconds before closing the image viewer. Overrides any settings
     in config files.
 
