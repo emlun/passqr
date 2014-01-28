@@ -170,6 +170,8 @@ if output=$($pass_cmd); then
     trace "Encoding first line of output of '${pass_cmd}'"
     output=$(echo "$output" | head -n1)
 
+    trace "Dot size: ${PIXELSIZE} px"
+
     qrencode -s $PIXELSIZE -t PNG -o - "$output" | $VIEWER_EXEC &
     sleep $TIMEOUT
     kill $! 2>/dev/null
