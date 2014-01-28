@@ -24,6 +24,7 @@ CONFIG=(
     "${HOME}/.config/passqr.conf"
 )
 
+# Default settings, can be overriden by config files and options
 PIXELSIZE=6
 TIMEOUT=3
 VERBOSE=false
