@@ -122,6 +122,9 @@ while true; do
             usage
             exit 0
             ;;
+        -v|--verbose)
+            VERBOSE=true
+            ;;
         --version)
             version
             exit 0
@@ -162,9 +165,6 @@ while true; do
         -t|--timeout)
             shift
             TIMEOUT=$1
-            ;;
-        -v|--verbose)
-            VERBOSE=true
             ;;
         -w|--viewer)
             shift
