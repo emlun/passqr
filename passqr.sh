@@ -26,6 +26,7 @@ CONFIG=(
 
 # Default settings, can be overriden by config files and options
 DOTSIZE=6
+MULTILINE=false
 TIMEOUT=3
 VERBOSE=false
 VIEWER_EXEC=''
@@ -65,6 +66,9 @@ Options (defaults):
   -h, --help
     Show this message and exit.
 
+  -m, --multiline
+    Encode all output from pass, not just the first line.
+
   -t, --timeout SECONDS (3)
     Wait SECONDS seconds before closing the image viewer. Overrides any settings
     in config files.
@@ -95,7 +99,7 @@ by Emil Lundberg <lundberg.emil@gmail.com>
 EOF
 }
 
-ARGS="$($GETOPT -o c:ht:vw: -l config:,help,timeout:,verbose,version,viewer: -n "$PROGRAM" -- "$@")"
+ARGS="$($GETOPT -o c:hmt:vw: -l config:,help,multiline,timeout:,verbose,version,viewer: -n "$PROGRAM" -- "$@")"
 if [[ $? -ne 0 ]]; then
     usage
     exit 1
@@ -142,6 +146,9 @@ done
 eval set -- "$ARGS"
 while true; do
     case $1 in
+        -m|--multiline)
+            MULTILINE=true
+            ;;
         -t|--timeout)
             shift
             TIMEOUT=$1
@@ -167,8 +174,12 @@ fi
 
 pass_cmd="pass show $@"
 if output=$($pass_cmd); then
-    trace "Encoding first line of output of '${pass_cmd}'"
-    output=$(echo "$output" | head -n1)
+    if $MULTILINE; then
+        trace "Encoding all output of '${pass_cmd}'"
+    else
+        trace "Encoding first line of output of '${pass_cmd}'"
+        output=$(echo "$output" | head -n1)
+    fi
 
     trace "Dot size: ${DOTSIZE} px"
 
