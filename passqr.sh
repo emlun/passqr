@@ -68,8 +68,8 @@ Options (defaults):
 
   -w, --viewer 'COMMAND' ('feh -' or 'display -')
     Pipe QR code image into COMMAND for display. COMMAND is expected to read the
-    image from stdin. If COMMAND is '-', then print the image to stdout instead
-    of displaying it.
+    image from stdin. If you want to print the QR code to stdout, use -w cat and
+    make sure not to use the --verbose option.
 
     If no config file specifies a viewer command and this option is not given,
     ${PROGRAM} will look for 'feh' and 'display'. If none is found, the program
@@ -163,12 +163,8 @@ if output=$($pass_cmd); then
         echo "Encoding first line of output of '${pass_cmd}'"
     fi
     output=$(echo "$output" | head -n1)
-    encode_cmd="qrencode -s $PIXELSIZE -t PNG -o - $output"
-    if [[ "$VIEWER_EXEC" == '-' ]]; then
-        $encode_cmd
-    else
-        $encode_cmd | $VIEWER_EXEC &
-        sleep $TIMEOUT
-        kill $! 2>/dev/null
-    fi
+
+    qrencode -s $PIXELSIZE -t PNG -o - "$output" | $VIEWER_EXEC &
+    sleep $TIMEOUT
+    kill $! 2>/dev/null
 fi
