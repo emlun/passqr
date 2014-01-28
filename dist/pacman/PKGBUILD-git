@@ -9,6 +9,7 @@ arch=('any')
 url='https://github.com/emlun/passqr'
 license=('GPL')
 depends=('pass' 'qrencode' 'imagemagick')
+optdepends=('feh: alternate image viewer')
 makedepends=('git')
 provides=("${_pkgname}")
 conflicts=("${_pkgname}")
