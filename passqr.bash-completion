@@ -3,8 +3,25 @@
 _passqr() {
     COMPREPLY=()
     local cur="${COMP_WORDS[COMP_CWORD]}"
-    COMPREPLY+=($(compgen -W '-t --timeout' -- "${COMP_WORDS[COMP_CWORD]}"))
-    _pass_complete_entries 1
+    local prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+    case "${prev}" in
+        -c|--config)
+            _filedir
+            ;;
+        -t|--timeout)
+            # No completions
+            ;;
+        -w|--viewer)
+            _command
+            ;;
+        *)
+            if [[ "${cur}" == -* ]]; then
+                COMPREPLY+=($(compgen -W '-c --config -h --help -t --timeout -v --verbose --version -w --viewer' -- "${cur}"))
+            fi
+            _pass_complete_entries 1
+            ;;
+    esac
 }
 
 complete -o filenames -F _passqr passqr
