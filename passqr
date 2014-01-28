@@ -18,14 +18,14 @@
 
 GETOPT=getopt
 VIEWER_EXEC='display -'
-program="$(basename "$0")"
+PROGRAM="$(basename "$0")"
 timeout=3
 pixelsize=6
 verbose=false
 
-ARGS="$($GETOPT -o t:v -l timeout:,verbose -n "$program" -- "$@")"
+ARGS="$($GETOPT -o t:v -l timeout:,verbose -n "$PROGRAM" -- "$@")"
 if [[ $? -ne 0 ]]; then
-    echo "Usage: ${program} [-t,--timeout SECONDS] [-v,--verbose] PASS_PATH"
+    echo "Usage: ${PROGRAM} [-t,--timeout SECONDS] [-v,--verbose] PASS_PATH"
     exit 1
 fi
 
