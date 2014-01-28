@@ -20,8 +20,8 @@ GETOPT=getopt
 PROGRAM="$(basename "$0")"
 VERSION=1.0.0
 CONFIG=(
-    '/etc/passqr.conf'
-    "${HOME}/.config/passqr.conf"
+    "/etc/${PROGRAM}.conf"
+    "${HOME}/.config/${PROGRAM}.conf"
 )
 
 # Default settings, can be overriden by config files and options
