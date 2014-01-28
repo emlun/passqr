@@ -17,15 +17,16 @@
 # passqr. If not, see <http://www.gnu.org/licenses/>.
 
 GETOPT=getopt
-VIEWER_EXEC='display -'
 PROGRAM="$(basename "$0")"
 CONFIG=(
     '/etc/passqr.conf'
     "${HOME}/.config/passqr.conf"
 )
-TIMEOUT=3
+
 PIXELSIZE=6
+TIMEOUT=3
 VERBOSE=false
+VIEWER_EXEC='display -'
 
 ARGS="$($GETOPT -o t:v -l timeout:,verbose -n "$PROGRAM" -- "$@")"
 if [[ $? -ne 0 ]]; then
