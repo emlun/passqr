@@ -25,7 +25,7 @@ CONFIG=(
 )
 
 # Default settings, can be overriden by config files and options
-PIXELSIZE=6
+DOTSIZE=6
 TIMEOUT=3
 VERBOSE=false
 VIEWER_EXEC=''
@@ -170,9 +170,9 @@ if output=$($pass_cmd); then
     trace "Encoding first line of output of '${pass_cmd}'"
     output=$(echo "$output" | head -n1)
 
-    trace "Dot size: ${PIXELSIZE} px"
+    trace "Dot size: ${DOTSIZE} px"
 
-    qrencode -s $PIXELSIZE -t PNG -o - "$output" | $VIEWER_EXEC &
+    qrencode -s $DOTSIZE -t PNG -o - "$output" | $VIEWER_EXEC &
     sleep $TIMEOUT
     kill $! 2>/dev/null
 fi
