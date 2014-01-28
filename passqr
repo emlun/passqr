@@ -23,9 +23,9 @@ CONFIG=(
     '/etc/passqr.conf'
     "${HOME}/.config/passqr.conf"
 )
-timeout=3
-pixelsize=6
-verbose=false
+TIMEOUT=3
+PIXELSIZE=6
+VERBOSE=false
 
 ARGS="$($GETOPT -o t:v -l timeout:,verbose -n "$PROGRAM" -- "$@")"
 if [[ $? -ne 0 ]]; then
@@ -38,10 +38,10 @@ while true; do
     case $1 in
         -t|--timeout)
             shift
-            timeout=$1
+            TIMEOUT=$1
             ;;
         -v|--verbose)
-            verbose=true
+            VERBOSE=true
             ;;
         --)
             shift
@@ -53,7 +53,7 @@ done
 
 for config_file in "${CONFIG[@]}"; do
     if [[ -f "$config_file" ]]; then
-        if $verbose; then
+        if $VERBOSE; then
             echo "Sourcing config file ${config_file}"
         fi
         source "$config_file"
@@ -62,11 +62,11 @@ done
 
 pass_cmd="pass show $@"
 if output=$($pass_cmd); then
-    if $verbose; then
+    if $VERBOSE; then
         echo "Encoding first line of output of '${pass_cmd}'"
     fi
     output=$(echo "$output" | head -n1)
-    qrencode -s $pixelsize -t PNG -o - "$output" | $VIEWER_EXEC - &
-    sleep $timeout
+    qrencode -s $PIXELSIZE -t PNG -o - "$output" | $VIEWER_EXEC - &
+    sleep $TIMEOUT
     kill $! 2>/dev/null
 fi
