@@ -7,4 +7,4 @@ _passqr() {
     _pass_complete_entries 1
 }
 
-complete -o filenames -o nospace -F _passqr passqr
+complete -o filenames -F _passqr passqr
