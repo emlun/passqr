@@ -14,7 +14,7 @@ provides=("${_pkgname}")
 conflicts=("${_pkgname}")
 changelog='changelog.txt'
 source=("${changelog}"
-        "${pkgname}::git+${url}#branch=master")
+        "${pkgname}::git+${url}.git#branch=master")
 md5sums=('d41d8cd98f00b204e9800998ecf8427e'
          'SKIP')
 sha1sums=('da39a3ee5e6b4b0d3255bfef95601890afd80709'
