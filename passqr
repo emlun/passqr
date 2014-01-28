@@ -38,6 +38,9 @@ Options:
     Add FILE to the list of config files to source. Can be specified multiple
     times, later files override earlier ones.
 
+  -h, --help
+    Show this message and exit.
+
   -t, --timeout SECONDS
     Wait SECONDS seconds before closing the image viewer. Overrides any settings
     in config files.
@@ -49,7 +52,7 @@ Options:
 EOF
 }
 
-ARGS="$($GETOPT -o c:t:v -l config:,timeout:,verbose -n "$PROGRAM" -- "$@")"
+ARGS="$($GETOPT -o c:ht:v -l config:,help,timeout:,verbose -n "$PROGRAM" -- "$@")"
 if [[ $? -ne 0 ]]; then
     usage
     exit 1
@@ -61,6 +64,10 @@ while true; do
         -c|--config)
             shift
             CONFIG+=("$1")
+            ;;
+        -h|--help)
+            usage
+            exit 0
             ;;
         --)
             shift
