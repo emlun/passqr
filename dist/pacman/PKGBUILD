@@ -23,5 +23,5 @@ sha512sums=('e67de582d31ed1fd0dd0e101cabd60f7992c3457b3f122460939652e11b81507c40
 
 package() {
     cd "${srcdir}/${pkgname}"
-    make install DESTDIR="${pkgdir}" PKGNAME="${pkgname}"
+    make install DESTDIR="${pkgdir}"
 }

@@ -31,5 +31,5 @@ pkgver() {
 
 package() {
     cd "${srcdir}/${pkgname}"
-    make install DESTDIR="${pkgdir}" PKGNAME="${pkgname}"
+    make install DESTDIR="${pkgdir}"
 }
