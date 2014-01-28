@@ -2,7 +2,7 @@
 
 _pkgname=passqr
 pkgname="${_pkgname}-git"
-pkgver=1.0.0
+pkgver=1.1.0
 pkgrel=1
 pkgdesc="Generate 2D barcodes from password-store entries"
 arch=('any')
