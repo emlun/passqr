@@ -19,6 +19,10 @@
 GETOPT=getopt
 VIEWER_EXEC='display -'
 PROGRAM="$(basename "$0")"
+CONFIG=(
+    '/etc/passqr.conf'
+    "${HOME}/.config/passqr.conf"
+)
 timeout=3
 pixelsize=6
 verbose=false
@@ -45,6 +49,15 @@ while true; do
             ;;
     esac
     shift
+done
+
+for config_file in "${CONFIG[@]}"; do
+    if [[ -f "$config_file" ]]; then
+        if $verbose; then
+            echo "Sourcing config file ${config_file}"
+        fi
+        source "$config_file"
+    fi
 done
 
 pass_cmd="pass show $@"
