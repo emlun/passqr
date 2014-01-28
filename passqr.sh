@@ -31,6 +31,9 @@ TIMEOUT=3
 VERBOSE=false
 VIEWER_EXEC=''
 
+# Only evaluate config lines matching this pattern
+CONFIG_PATTERN='^(DOTSIZE|TIMEOUT|VIEWER_EXEC)'
+
 err() {
     echo "$@" 1>&2
 }
@@ -60,7 +63,7 @@ Usage: ${PROGRAM} [options] pass-name
 Options (defaults):
 
   -c, --config FILE
-    Add FILE to the list of config files to source. Can be specified multiple
+    Add FILE to the list of config files to read. Can be specified multiple
     times, later files override earlier ones.
 
   -h, --help
@@ -140,8 +143,8 @@ fi
 
 for config_file in "${CONFIG[@]}"; do
     if [[ -f "$config_file" ]]; then
-        trace "Sourcing config file ${config_file}"
-        source "$config_file"
+        trace "Reading config file ${config_file}"
+        eval $(egrep "$CONFIG_PATTERN" "$config_file")
     fi
 done
 
