@@ -30,21 +30,22 @@ if [[ $? -ne 0 ]]; then
 fi
 
 eval set -- "$ARGS"
-while true; do case $1 in
-    -t|--timeout)
-        shift
-        timeout=$1
-        shift
-        ;;
-    -v|--verbose)
-        verbose=true
-        shift
-        ;;
-    --)
-        shift
-        break
-        ;;
-esac done
+while true; do
+    case $1 in
+        -t|--timeout)
+            shift
+            timeout=$1
+            ;;
+        -v|--verbose)
+            verbose=true
+            ;;
+        --)
+            shift
+            break
+            ;;
+    esac
+    shift
+done
 
 pass_cmd="pass show $@"
 if output=$($pass_cmd); then
