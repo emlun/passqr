@@ -69,7 +69,7 @@ Options (defaults):
   -m, --multiline
     Encode all output from pass, not just the first line.
 
-  -t, --timeout SECONDS (3)
+  -t, --timeout SECONDS (${TIMEOUT})
     Wait SECONDS seconds before closing the image viewer. Overrides any settings
     in config files.
 
