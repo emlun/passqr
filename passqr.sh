@@ -30,14 +30,24 @@ TIMEOUT=3
 VERBOSE=false
 VIEWER_EXEC=''
 
+err() {
+    echo "$@" 1>&2
+}
+
+trace() {
+    if $VERBOSE; then
+        echo "$@"
+    fi
+}
+
 find_viewer() {
     if hash feh 2>/dev/null; then
         VIEWER_EXEC='feh -'
     elif hash display 2>/dev/null; then
         VIEWER_EXEC='display -'
     else
-        echo "Fatal: Could not find any image viewer"
-        echo "Please install one and set VIEWER_EXEC in the config file."
+        err "Fatal: Could not find any image viewer"
+        err "Please install one and set VIEWER_EXEC in the config file."
         exit 1
     fi
 }
@@ -116,16 +126,14 @@ done
 
 if [[ $# -eq 0 ]]; then
     # Must have a pass-name to pass to pass
-    echo "Fatal: no pass-name given"
+    err "Fatal: no pass-name given"
     usage
     exit 1
 fi
 
 for config_file in "${CONFIG[@]}"; do
     if [[ -f "$config_file" ]]; then
-        if $VERBOSE; then
-            echo "Sourcing config file ${config_file}"
-        fi
+        trace "Sourcing config file ${config_file}"
         source "$config_file"
     fi
 done
@@ -159,9 +167,7 @@ fi
 
 pass_cmd="pass show $@"
 if output=$($pass_cmd); then
-    if $VERBOSE; then
-        echo "Encoding first line of output of '${pass_cmd}'"
-    fi
+    trace "Encoding first line of output of '${pass_cmd}'"
     output=$(echo "$output" | head -n1)
 
     qrencode -s $PIXELSIZE -t PNG -o - "$output" | $VIEWER_EXEC &
