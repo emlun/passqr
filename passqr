@@ -41,13 +41,6 @@ while true; do
             shift
             CONFIG+=("$1")
             ;;
-        -t|--timeout)
-            shift
-            TIMEOUT=$1
-            ;;
-        -v|--verbose)
-            VERBOSE=true
-            ;;
         --)
             shift
             break
@@ -63,6 +56,25 @@ for config_file in "${CONFIG[@]}"; do
         fi
         source "$config_file"
     fi
+done
+
+# Parse arguments again, to allow for overriding config settings
+eval set -- "$ARGS"
+while true; do
+    case $1 in
+        -t|--timeout)
+            shift
+            TIMEOUT=$1
+            ;;
+        -v|--verbose)
+            VERBOSE=true
+            ;;
+        --)
+            shift
+            break
+            ;;
+    esac
+    shift
 done
 
 pass_cmd="pass show $@"
