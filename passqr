@@ -131,7 +131,7 @@ if output=$($pass_cmd); then
     if [[ "$VIEWER_EXEC" == '-' ]]; then
         $encode_cmd
     else
-        $encode_cmd | $VIEWER_EXEC - &
+        $encode_cmd | $VIEWER_EXEC &
         sleep $TIMEOUT
         kill $! 2>/dev/null
     fi
