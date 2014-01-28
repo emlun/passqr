@@ -11,7 +11,7 @@ depends=('pass' 'qrencode' 'imagemagick')
 makedepends=('git')
 changelog='changelog.txt'
 source=("${changelog}"
-        "git+${url}.git#tag=${pkgver}")
+        "${pkgname}::git+${url}.git#tag=${pkgver}")
 md5sums=('755603656962f000d56eb6d2bcb8f85a'
          'SKIP')
 sha1sums=('22ad26f2d220fa1dbf00ff3daadb695c91d4e616'
@@ -22,6 +22,6 @@ sha512sums=('e67de582d31ed1fd0dd0e101cabd60f7992c3457b3f122460939652e11b81507c40
             'SKIP')
 
 package() {
-    cd "${pkgname}"
+    cd "${srcdir}/${pkgname}"
     make install DESTDIR="${pkgdir}" PKGNAME="${pkgname}"
 }
