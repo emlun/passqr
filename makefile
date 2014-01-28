@@ -1,5 +1,4 @@
 DESTDIR=
-PKGNAME=passqr
 
 default:
 	echo "Nothing to compile - nothing to do! :D"
