@@ -1,0 +1,27 @@
+# completion file for bash
+
+_passqr() {
+    COMPREPLY=()
+    local cur="${COMP_WORDS[COMP_CWORD]}"
+    local prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+    case "${prev}" in
+        -c|--config)
+            _filedir
+            ;;
+        -s|--dotsize|-t|--timeout)
+            # No completions
+            ;;
+        -w|--viewer)
+            _command
+            ;;
+        *)
+            if [[ "${cur}" == -* ]]; then
+                COMPREPLY+=($(compgen -W '-c --config --dotsize -h --help -m --multiline -s -t --timeout -v --verbose --version -w --viewer' -- "${cur}"))
+            fi
+            _pass_complete_entries 1
+            ;;
+    esac
+}
+
+complete -o filenames -F _passqr passqr

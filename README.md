@@ -1,6 +1,6 @@
 passqr
 ======
-Export QR codes from Jason A. Donenfeld's `[pass][pass]` utility
+Export QR codes from Jason A. Donenfeld's [`pass`][pass] utility
 
 This is a simple shell script that makes it easy to export passwords stored in
 Jason A. Donenfeld's `pass` utility as QR codes (2D barcodes). This makes it
