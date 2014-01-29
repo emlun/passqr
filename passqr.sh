@@ -141,9 +141,7 @@ if [[ $passexit -eq 0 ]]; then
         output=$(echo "$output" | head -n1)
     fi
 
-    qrencode -s $DOTSIZE -t PNG -o - "$output" | $VIEWER_EXEC &
-    sleep $TIMEOUT
-    kill $! 2>/dev/null
+    qrencode -s $DOTSIZE -t PNG -o - "$output" | timeout $TIMEOUT $VIEWER_EXEC
 else
     err "$output"
     exit $passexit
