@@ -6,9 +6,6 @@ _passqr() {
     local prev="${COMP_WORDS[COMP_CWORD-1]}"
 
     case "${prev}" in
-        -c|--config)
-            _filedir
-            ;;
         -s|--dotsize|-t|--timeout)
             # No completions
             ;;
@@ -17,7 +14,7 @@ _passqr() {
             ;;
         *)
             if [[ "${cur}" == -* ]]; then
-                COMPREPLY+=($(compgen -W '-c --config --dotsize -h --help -m --multiline -s -t --timeout --version -w --viewer' -- "${cur}"))
+                COMPREPLY+=($(compgen -W '--dotsize -h --help -m --multiline -s -t --timeout --version -w --viewer' -- "${cur}"))
             fi
             _pass_complete_entries 1
             ;;

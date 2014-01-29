@@ -56,10 +56,6 @@ Usage: ${PROGRAM} [options] pass-name
 
 Options (defaults):
 
-  -c, --config FILE
-    Add FILE to the list of config files to read. Can be specified multiple
-    times, later files override earlier ones.
-
   -h, --help
     Show this message and exit.
 
@@ -96,7 +92,7 @@ by Emil Lundberg <lundberg.emil@gmail.com>
 EOF
 }
 
-ARGS="$($GETOPT -o c:s:hmt:w: -l config:,dotsize:,help,multiline,timeout:,version,viewer: -n "$PROGRAM" -- "$@")"
+ARGS="$($GETOPT -o s:hmt:w: -l dotsize:,help,multiline,timeout:,version,viewer: -n "$PROGRAM" -- "$@")"
 if [[ $? -ne 0 ]]; then
     usage
     exit 1
@@ -105,10 +101,6 @@ fi
 eval set -- "$ARGS"
 while true; do
     case $1 in
-        -c|--config)
-            shift
-            CONFIG+=("$1")
-            ;;
         -h|--help)
             usage
             exit 0
