@@ -44,18 +44,6 @@ err() {
     echo "$@" 1>&2
 }
 
-find_viewer() {
-    if hash feh 2>/dev/null; then
-        VIEWER_EXEC='feh -'
-    elif hash display 2>/dev/null; then
-        VIEWER_EXEC='display -'
-    else
-        err "Fatal: Could not find any image viewer"
-        err "Please install one and set VIEWER_EXEC in the config file."
-        exit 1
-    fi
-}
-
 usage() {
 cat << EOF
 Usage: ${PROGRAM} [options] pass-name
@@ -83,10 +71,6 @@ Options (defaults):
     image from stdin. If you want to print the image to stdout, use -w cat.
     Note that ${PROGRAM} makes no guarantee to not print anything else on
     stdout.
-
-    If no config file specifies a viewer command and this option is not given,
-    ${PROGRAM} will look for 'feh' and 'display'. If none is found, the program
-    shows an error message and exits with nonzero exit code.
 
 EOF
 }
@@ -146,7 +130,9 @@ if [[ $# -eq 0 ]]; then
 fi
 
 if [[ -z "$VIEWER_EXEC" ]]; then
-    find_viewer
+    err "No image viewer set. Please set VIEWER_EXEC in a config file or use"
+    err "the -w, --viewer 'COMMAND' option. See ${PROGRAM} --help for details."
+    exit 1
 fi
 
 if output=$(pass show "$@"); then
