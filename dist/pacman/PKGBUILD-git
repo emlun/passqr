@@ -8,6 +8,7 @@ pkgdesc="Generate 2D barcodes from password-store entries"
 arch=('any')
 url='https://github.com/emlun/passqr'
 license=('GPL')
+backup=("etc/${_pkgname}.conf")
 depends=('pass' 'qrencode')
 optdepends=(
     'imagemagick: image viewer'
