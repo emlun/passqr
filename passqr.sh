@@ -56,16 +56,16 @@ Options (defaults):
   -m, --multiline
     Encode all output from pass show, not just the first line.
 
-  -s, --dotsize PIXELS (${DOTSIZE})
+  -s, --dotsize PIXELS (6)
     Pass-through option to qrencode (there it is -s, --size).
 
-  -t, --timeout SECONDS (${TIMEOUT})
+  -t, --timeout SECONDS (3)
     Wait SECONDS seconds before closing the image viewer.
 
   --version
     Show version information and exit.
 
-  -w, --viewer 'COMMAND' ('feh -' or 'display -')
+  -w, --viewer 'COMMAND' (none)
     Pipe QR code image into COMMAND for display. COMMAND is expected to read the
     image from stdin. If you want to print the image to stdout, use -w cat.
     Note that ${PROGRAM} makes no guarantee to not print anything else on
