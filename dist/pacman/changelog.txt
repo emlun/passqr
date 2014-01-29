@@ -1,3 +1,14 @@
+1.2.0 (2014-01-30 UTC)
+
+- Reverse some feature creep
+  - Remove trace output and -v, --verbose option
+  - Remove -c, --config option - only read predefined config files
+  - Don't look for a default viewer if none is configured
+- Remove dependency on ImageMagick
+- Add /etc/passqr.conf with example configurations
+- Minor improvements to help text
+
+
 1.1.0 (2014-01-28 UTC)
 
 - Add config file support
