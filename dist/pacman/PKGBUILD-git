@@ -16,13 +16,13 @@ conflicts=("${_pkgname}")
 changelog='changelog.txt'
 source=("${changelog}"
         "${pkgname}::git+${url}.git#branch=master")
-md5sums=('755603656962f000d56eb6d2bcb8f85a'
+md5sums=('5a4a119a8d5f76455002b8919216bcee'
          'SKIP')
-sha1sums=('22ad26f2d220fa1dbf00ff3daadb695c91d4e616'
+sha1sums=('f273776ca4bba1638699dda554eb1963ea4c7a9b'
           'SKIP')
-sha256sums=('55126c16ac4f668c5a5200b401faa6ab95aab589b1b3a098e0b7692fd278ded0'
+sha256sums=('5d34db458455e4e649a8fc41bb3b8e6e9b11ea92831bdf81a5c018b0c985c648'
             'SKIP')
-sha512sums=('e67de582d31ed1fd0dd0e101cabd60f7992c3457b3f122460939652e11b81507c402eb5f56825b959ccad39f4d02dc85c4f58f17407886529c28789124a3e0a3'
+sha512sums=('aacad23c7af15699942f324287c53c76f08b36e92dc0c297762b26d54274f07be2f2262920138b97cea85851b16b8213b191e88a9def43e3deca97a4690e8e43'
             'SKIP')
 
 pkgver() {
