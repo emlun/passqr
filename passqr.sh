@@ -38,12 +38,6 @@ err() {
     echo "$@" 1>&2
 }
 
-trace() {
-    if $VERBOSE; then
-        echo "$@"
-    fi
-}
-
 find_viewer() {
     if hash feh 2>/dev/null; then
         VIEWER_EXEC='feh -'
@@ -79,17 +73,14 @@ Options (defaults):
     Wait SECONDS seconds before closing the image viewer. Overrides any settings
     in config files.
 
-  -v, --verbose
-    Output information about what the program is doing. This may include
-    sensitive information such as pass-name.
-
   --version
     Output version information and exit.
 
   -w, --viewer 'COMMAND' ('feh -' or 'display -')
     Pipe QR code image into COMMAND for display. COMMAND is expected to read the
-    image from stdin. If you want to print the QR code to stdout, use -w cat and
-    make sure not to use the --verbose option.
+    image from stdin. If you want to print the image to stdout, use -w cat.
+    Note that ${PROGRAM} makes no guarantee to not print anything else on
+    stdout.
 
     If no config file specifies a viewer command and this option is not given,
     ${PROGRAM} will look for 'feh' and 'display'. If none is found, the program
@@ -105,7 +96,7 @@ by Emil Lundberg <lundberg.emil@gmail.com>
 EOF
 }
 
-ARGS="$($GETOPT -o c:s:hmt:vw: -l config:,dotsize:,help,multiline,timeout:,verbose,version,viewer: -n "$PROGRAM" -- "$@")"
+ARGS="$($GETOPT -o c:s:hmt:w: -l config:,dotsize:,help,multiline,timeout:,version,viewer: -n "$PROGRAM" -- "$@")"
 if [[ $? -ne 0 ]]; then
     usage
     exit 1
@@ -121,9 +112,6 @@ while true; do
         -h|--help)
             usage
             exit 0
-            ;;
-        -v|--verbose)
-            VERBOSE=true
             ;;
         --version)
             version
@@ -146,7 +134,6 @@ fi
 
 for config_file in "${CONFIG[@]}"; do
     if [[ -f "$config_file" ]]; then
-        trace "Reading config file ${config_file}"
         eval $(egrep "$CONFIG_PATTERN" "$config_file")
     fi
 done
@@ -182,16 +169,10 @@ if [[ -z "$VIEWER_EXEC" ]]; then
     find_viewer
 fi
 
-pass_cmd="pass show $@"
-if output=$($pass_cmd); then
-    if $MULTILINE; then
-        trace "Encoding all output of '${pass_cmd}'"
-    else
-        trace "Encoding first line of output of '${pass_cmd}'"
+if output=$(pass show "$@"); then
+    if ! $MULTILINE; then
         output=$(echo "$output" | head -n1)
     fi
-
-    trace "Dot size: ${DOTSIZE} px"
 
     qrencode -s $DOTSIZE -t PNG -o - "$output" | $VIEWER_EXEC &
     sleep $TIMEOUT
