@@ -34,6 +34,12 @@ VIEWER_EXEC=''
 # Only evaluate config lines matching this pattern
 CONFIG_PATTERN='^(DOTSIZE|TIMEOUT|VIEWER_EXEC)='
 
+for config_file in "${CONFIG[@]}"; do
+    if [[ -f "$config_file" ]]; then
+        eval $(egrep "$CONFIG_PATTERN" "$config_file")
+    fi
+done
+
 err() {
     echo "$@" 1>&2
 }
@@ -123,12 +129,6 @@ if [[ $# -eq 0 ]]; then
     usage
     exit 1
 fi
-
-for config_file in "${CONFIG[@]}"; do
-    if [[ -f "$config_file" ]]; then
-        eval $(egrep "$CONFIG_PATTERN" "$config_file")
-    fi
-done
 
 # Parse arguments again, to allow for overriding config settings
 eval set -- "$ARGS"
