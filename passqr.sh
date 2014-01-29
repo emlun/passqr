@@ -54,7 +54,7 @@ Options (defaults):
     Show this message and exit.
 
   -m, --multiline
-    Encode all output from pass, not just the first line.
+    Encode all output from pass show, not just the first line.
 
   -s, --dotsize PIXELS (${DOTSIZE})
     Pass-through option to qrencode (there it is -s, --size).
@@ -63,7 +63,7 @@ Options (defaults):
     Wait SECONDS seconds before closing the image viewer.
 
   --version
-    Output version information and exit.
+    Show version information and exit.
 
   -w, --viewer 'COMMAND' ('feh -' or 'display -')
     Pipe QR code image into COMMAND for display. COMMAND is expected to read the
