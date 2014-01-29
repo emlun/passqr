@@ -134,7 +134,9 @@ if [[ -z "$VIEWER_EXEC" ]]; then
     exit 1
 fi
 
-if output=$(pass show "$@"); then
+output=$(pass show "$@")
+passexit=$?
+if [[ $passexit -eq 0 ]]; then
     if ! $MULTILINE; then
         output=$(echo "$output" | head -n1)
     fi
@@ -142,4 +144,7 @@ if output=$(pass show "$@"); then
     qrencode -s $DOTSIZE -t PNG -o - "$output" | $VIEWER_EXEC &
     sleep $TIMEOUT
     kill $! 2>/dev/null
+else
+    err "$output"
+    exit $passexit
 fi
