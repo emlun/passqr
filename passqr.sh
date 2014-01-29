@@ -103,17 +103,32 @@ if [[ $? -ne 0 ]]; then
     usage
     exit 1
 fi
-
 eval set -- "$ARGS"
+
 while true; do
     case $1 in
         -h|--help)
             usage
             exit 0
             ;;
+        -m|--multiline)
+            MULTILINE=true
+            ;;
+        -s|--dotsize)
+            shift
+            DOTSIZE=$1
+            ;;
+        -t|--timeout)
+            shift
+            TIMEOUT=$1
+            ;;
         --version)
             version
             exit 0
+            ;;
+        -w|--viewer)
+            shift
+            VIEWER_EXEC="$1"
             ;;
         --)
             shift
@@ -129,33 +144,6 @@ if [[ $# -eq 0 ]]; then
     usage
     exit 1
 fi
-
-# Parse arguments again, to allow for overriding config settings
-eval set -- "$ARGS"
-while true; do
-    case $1 in
-        -s|--dotsize)
-            shift
-            DOTSIZE=$1
-            ;;
-        -m|--multiline)
-            MULTILINE=true
-            ;;
-        -t|--timeout)
-            shift
-            TIMEOUT=$1
-            ;;
-        -w|--viewer)
-            shift
-            VIEWER_EXEC="$1"
-            ;;
-        --)
-            shift
-            break
-            ;;
-    esac
-    shift
-done
 
 if [[ -z "$VIEWER_EXEC" ]]; then
     find_viewer
