@@ -60,8 +60,7 @@ Options (defaults):
     Pass-through option to qrencode (there it is -s, --size).
 
   -t, --timeout SECONDS (${TIMEOUT})
-    Wait SECONDS seconds before closing the image viewer. Overrides any settings
-    in config files.
+    Wait SECONDS seconds before closing the image viewer.
 
   --version
     Output version information and exit.
