@@ -32,7 +32,7 @@ VERBOSE=false
 VIEWER_EXEC=''
 
 # Only evaluate config lines matching this pattern
-CONFIG_PATTERN='^(DOTSIZE|TIMEOUT|VIEWER_EXEC)'
+CONFIG_PATTERN='^(DOTSIZE|TIMEOUT|VIEWER_EXEC)='
 
 err() {
     echo "$@" 1>&2
