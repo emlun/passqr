@@ -10,10 +10,17 @@ license=('GPL')
 backup=("etc/${pkgname}.conf")
 depends=('pass' 'qrencode')
 optdepends=(
-    'imagemagick: image viewer'
-    'feh: recommended image viewer'
-    'kdegraphics-gwenview: heavy (but compatible) image viewer'
-    'xv: image viewer'
+    'feh: fast image viewer'
+    'gpicview: fast image viewer'
+    'nomacs: fast image viewer'
+    'qiv: fast image viewer'
+    'xv: fast image viewer'
+    'gimmage: image viewer'
+    'mirage: image viewer'
+    'ristretto: image viewer'
+    'viewnior: image viewer'
+    'fbida: console image viewer'
+    'fbv: console image viewer'
     )
 makedepends=('git')
 changelog='changelog.txt'
