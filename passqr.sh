@@ -142,6 +142,13 @@ if [[ $passexit -eq 0 ]]; then
     fi
 
     qrencode -s $DOTSIZE -t PNG -o - "$output" | timeout $TIMEOUT $VIEWER_EXEC
+    viewexit=$?
+    # Timeout exits with code 124 if command times out
+    if [[ $viewexit -eq 124 ]]; then
+        exit 0
+    else
+        exit $viewexit
+    fi
 else
     err "$output"
     exit $passexit
