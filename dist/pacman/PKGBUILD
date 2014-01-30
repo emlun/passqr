@@ -12,6 +12,7 @@ depends=('pass' 'qrencode')
 optdepends=(
     'feh: fast image viewer'
     'gpicview: fast image viewer'
+    'imagemagick: fast image viewer'
     'nomacs: fast image viewer'
     'qiv: fast image viewer'
     'xv: fast image viewer'
