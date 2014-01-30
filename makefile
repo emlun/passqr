@@ -1,7 +1,6 @@
 DESTDIR=
 
-default:
-	echo "Nothing to compile - nothing to do! :D"
+all: changelog.txt
 
 install:
 	@install -Dv -m 755 passqr.sh "${DESTDIR}/usr/bin/passqr"
@@ -12,3 +11,6 @@ uninstall:
 	@rm -fv "${DESTDIR}/usr/bin/passqr"
 	@rm -fv "${DESTDIR}/etc/bash_completion.d/password-store-qr"
 	@rm -fv "${DESTDIR}/etc/passqr.conf"
+
+changelog.txt:
+	./make-changelog.sh $@
