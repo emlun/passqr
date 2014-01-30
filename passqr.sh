@@ -18,7 +18,7 @@
 
 GETOPT=getopt
 PROGRAM="$(basename "$0")"
-VERSION=1.2.0
+VERSION=1.3.0
 CONFIG=(
     "/etc/${PROGRAM}.conf"
     "${HOME}/.config/${PROGRAM}.conf"
@@ -66,9 +66,9 @@ Options (defaults):
     Show version information and exit.
 
   -w, --viewer 'COMMAND' (none)
-    Pipe QR code image into COMMAND for display. COMMAND is expected to read the
-    image from stdin. If you want to print the image to stdout, use -w cat.
-    Note that ${PROGRAM} makes no guarantee to not print anything else on
+    Use COMMAND to display the QR code image. COMMAND will be appended with a
+    single filename. If you want to print the image to stdout, use -w cat, but
+    note that ${PROGRAM} makes no guarantee to not print anything else on
     stdout.
 
 EOF
@@ -134,12 +134,27 @@ if [[ -z "$VIEWER_EXEC" ]]; then
     exit 1
 fi
 
-if output=$(pass show "$@"); then
+output=$(pass show "$@")
+passexit=$?
+if [[ $passexit -eq 0 ]]; then
     if ! $MULTILINE; then
         output=$(echo "$output" | head -n1)
     fi
 
-    qrencode -s $DOTSIZE -t PNG -o - "$output" | $VIEWER_EXEC &
-    sleep $TIMEOUT
-    kill $! 2>/dev/null
+    tmpfile=$(mktemp --tmpdir "${PROGRAM}.XXXXXXXXXX") || exit $?
+    trap "rm '${tmpfile}'" EXIT
+
+    qrencode -s $DOTSIZE -t PNG -o "$tmpfile" "$output" || exit $?
+    timeout $TIMEOUT $VIEWER_EXEC "${tmpfile}"
+
+    viewexit=$?
+    # Timeout exits with code 124 if command times out
+    if [[ $viewexit -eq 124 ]]; then
+        exit 0
+    else
+        exit $viewexit
+    fi
+else
+    err "$output"
+    exit $passexit
 fi
