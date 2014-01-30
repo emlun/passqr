@@ -66,9 +66,9 @@ Options (defaults):
     Show version information and exit.
 
   -w, --viewer 'COMMAND' (none)
-    Pipe QR code image into COMMAND for display. COMMAND is expected to read the
-    image from stdin. If you want to print the image to stdout, use -w cat.
-    Note that ${PROGRAM} makes no guarantee to not print anything else on
+    Use COMMAND to display the QR code image. COMMAND will be appended with a
+    single filename. If you want to print the image to stdout, use -w cat, but
+    note that ${PROGRAM} makes no guarantee to not print anything else on
     stdout.
 
 EOF
@@ -141,7 +141,12 @@ if [[ $passexit -eq 0 ]]; then
         output=$(echo "$output" | head -n1)
     fi
 
-    qrencode -s $DOTSIZE -t PNG -o - "$output" | timeout $TIMEOUT $VIEWER_EXEC
+    tmpfile=$(mktemp --tmpdir "${PROGRAM}.XXXXXXXXXX") || exit $?
+    trap "rm '${tmpfile}'" EXIT
+
+    qrencode -s $DOTSIZE -t PNG -o "$tmpfile" "$output" || exit $?
+    timeout $TIMEOUT $VIEWER_EXEC "${tmpfile}"
+
     viewexit=$?
     # Timeout exits with code 124 if command times out
     if [[ $viewexit -eq 124 ]]; then
