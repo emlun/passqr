@@ -138,7 +138,7 @@ output=$(pass show "$@")
 passexit=$?
 if [[ $passexit -eq 0 ]]; then
     if ! $MULTILINE; then
-        output=$(echo "$output" | head -n1)
+        output=$(head -n1 <<< "$output")
     fi
 
     tmpfile=$(mktemp --tmpdir "${PROGRAM}.XXXXXXXXXX") || exit $?
