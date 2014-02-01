@@ -71,6 +71,22 @@ Options (defaults):
     note that ${PROGRAM} makes no guarantee to not print anything else on
     stdout.
 
+Configuration:
+
+  ${CONFIG[*]}
+
+  The config files are evaluated as shell scripts, but only those rows that
+  begin with 'SETTING=' where SETTING is one of the following settings:
+
+  DOTSIZE
+    Corresponds to the -d, --size option.
+
+  TIMEOUT
+    Corresponds to the -t, --timeout option.
+
+  VIEWER_EXEC
+    Corresponds to the -w, --viewer option.
+
 EOF
 }
 
