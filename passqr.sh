@@ -87,6 +87,10 @@ Configuration:
   VIEWER_EXEC
     Corresponds to the -w, --viewer option.
 
+  Of course, the chosen format makes the the config files attack vectors since
+  they could easily execute arbitrary code. Don't put stupid stuff in them, or
+  let anyone else do so.
+
 EOF
 }
 
