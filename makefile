@@ -1,7 +1,7 @@
 DESTDIR=
 
 default:
-	echo "Nothing to compile - nothing to do! :D"
+	@echo "Nothing to compile - nothing to do! :D"
 
 install:
 	@install -Dv -m 755 passqr.sh "${DESTDIR}/usr/bin/passqr"
