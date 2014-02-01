@@ -18,7 +18,7 @@
 
 GETOPT=getopt
 PROGRAM="$(basename "$0")"
-VERSION=1.3.0
+VERSION=1.3.1
 CONFIG=(
     "/etc/${PROGRAM}.conf"
     "${HOME}/.config/${PROGRAM}.conf"
@@ -70,6 +70,26 @@ Options (defaults):
     single filename. If you want to print the image to stdout, use -w cat, but
     note that ${PROGRAM} makes no guarantee to not print anything else on
     stdout.
+
+Configuration:
+
+  ${CONFIG[*]}
+
+  The config files are evaluated as shell scripts, but only those rows that
+  begin with 'SETTING=' where SETTING is one of the following settings:
+
+  DOTSIZE
+    Corresponds to the -d, --size option.
+
+  TIMEOUT
+    Corresponds to the -t, --timeout option.
+
+  VIEWER_EXEC
+    Corresponds to the -w, --viewer option.
+
+  Of course, the chosen format makes the the config files attack vectors since
+  they could easily execute arbitrary code. Don't put stupid stuff in them, or
+  let anyone else do so.
 
 EOF
 }
@@ -129,8 +149,11 @@ if [[ $# -eq 0 ]]; then
 fi
 
 if [[ -z "$VIEWER_EXEC" ]]; then
-    err "No image viewer set. Please set VIEWER_EXEC in a config file or use"
-    err "the -w, --viewer 'COMMAND' option. See ${PROGRAM} --help for details."
+    err "No image viewer set. Please set VIEWER_EXEC in a config file or use the -w, --viewer 'COMMAND' option. See ${PROGRAM} --help for details."
+    err "Recognized config files:"
+    for config_file in "${CONFIG[@]}"; do
+        err "    $config_file"
+    done
     exit 1
 fi
 
@@ -138,7 +161,7 @@ output=$(pass show "$@")
 passexit=$?
 if [[ $passexit -eq 0 ]]; then
     if ! $MULTILINE; then
-        output=$(echo "$output" | head -n1)
+        output=$(head -n1 <<< "$output")
     fi
 
     tmpfile=$(mktemp --tmpdir "${PROGRAM}.XXXXXXXXXX") || exit $?
