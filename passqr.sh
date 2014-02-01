@@ -131,6 +131,10 @@ fi
 if [[ -z "$VIEWER_EXEC" ]]; then
     err "No image viewer set. Please set VIEWER_EXEC in a config file or use"
     err "the -w, --viewer 'COMMAND' option. See ${PROGRAM} --help for details."
+    err "Recognized config files:"
+    for config_file in "${CONFIG[@]}"; do
+        err "    $config_file"
+    done
     exit 1
 fi
 
