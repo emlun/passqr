@@ -18,7 +18,7 @@
 
 GETOPT=getopt
 PROGRAM="$(basename "$0")"
-VERSION=1.3.0
+VERSION=1.3.1
 CONFIG=(
     "/etc/${PROGRAM}.conf"
     "${HOME}/.config/${PROGRAM}.conf"
