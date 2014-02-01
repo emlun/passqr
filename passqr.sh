@@ -142,7 +142,7 @@ while true; do
 done
 
 if [[ $# -eq 0 ]]; then
-    # Must have a pass-name to pass to pass
+    # User must pass a pass-name to pass to pass
     err "Fatal: no pass-name given"
     usage
     exit 1
