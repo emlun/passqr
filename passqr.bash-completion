@@ -10,7 +10,7 @@ _passqr() {
             # No completions
             ;;
         -w|--viewer)
-            _command
+            _command_offset $COMP_CWORD
             ;;
         *)
             if [[ "${cur}" == -* ]]; then
