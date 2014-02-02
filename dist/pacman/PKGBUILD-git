@@ -27,7 +27,7 @@ optdepends=(
 makedepends=('git')
 provides=("${_pkgname}")
 conflicts=("${_pkgname}")
-source=("${pkgname}::git+${url}.git#branch=master")
+source=("${pkgname}::git+${url}.git#branch=dev")
 md5sums=('SKIP')
 
 pkgver() {
