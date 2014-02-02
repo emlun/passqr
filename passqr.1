@@ -1,0 +1,171 @@
+.TH PASSQR 1 "2014-02-03 +0900" 1.3.1 "Password Store QR add-on"
+
+.SH NAME
+passqr - Generate 2D barcodes from Password Store entries
+
+
+.SH SYNOPSIS
+\fBpassqr\fP [\fI OPTIONS ]\fP... \fIPASS-NAME\fB
+
+
+.SH DESCRIPTION
+
+\fBpassqr\fP is fancy front-end to sending output from \fBpass\fP into
+\fBqrencode\fP and piping the output into an image viewer. It facilitates this
+process by managing temporary files and providing an interface similar to that
+of \fBpass\fP.
+
+The command
+
+.B $ passqr \fIPASS-NAME\fP
+
+will encode the output of \fBpass show PASS-NAME\fP
+as a QR code image, then display the image for a short duration on screen.
+
+
+.SH OPTIONS
+
+.TP
+\fB-h, --help\fP
+Show usage help and exit.
+
+.TP
+\fB-l, --lines\fP \fInum_lines\fP
+Encode only the first \fInum_lines\fP lines of output from \fBpass\fP. If
+\fInum_lines\fP is 'all', encode all output. If this option is not present, act
+as if it was present with argument 1.
+
+.TP
+\fB-m, --multiline\fP
+Shorthand for \fB--lines all\fP.
+
+.TP
+\fB-s, --dotsize\fP
+Pass-through for the \fB-s, --size\fP option of \fBqrencode\fP. Default is 6
+pixels.
+
+.TP
+\fB-t, --timeout\fP \fInum_seconds\fP
+Wait \fInum_seconds\fP, which can be a fraction, seconds before closing the
+image viewer. Default is 3 seconds.
+
+.TP
+\fB--version\fP
+Show version information and exit.
+
+.TP
+\fB-w, --viewer\fP \fIcommand\fP
+Use \fIcommand\fP to display the QR code image. \fIcommand\fP will be appended
+with a single filename, and the result will be executed as a command. The
+default is taken from the configuration files, see \fbCONFIGURATION\fP.
+
+If you want to print the image to stdout, use \fB-w cat\fP, but note that passqr
+makes no guarantee to not print anything else on stdout.
+
+
+.SH EXAMPLES
+
+.TP
+Encode and show in your favourite image viewer
+.B alice@laptop ~ $ passqr alice@wonderland.org
+
+.TP
+Encode and show in qiv
+.B alice@laptop ~ $ passqr -w qiv alice@wonderland.org
+
+.TP
+Keep image viewer open for 10 seconds
+.B alice@laptop ~ $ passqr -t 10 alice@wonderland.org
+
+.TP
+Encode and save image to file
+.B alice@laptop ~ $ passqr -w cat alice@wonderland.org > password.png; chmod 400
+.B password.png
+
+.TP
+Pass environment variables through to \fBpass\fP
+.B alice@laptop ~ $ PASSWORD_STORE_DIR=~bob/.password-store passqr
+.B bob@cheezburger.com
+
+
+.SH CONFIGURATION
+
+The configuration files listed under \fBFILES\fP are evaluated as shell scripts
+in the order stated above, but only those lines that begin with 'KEY=' where KEY
+is one of the configuration keys below.
+
+Later configuration files override earlier ones, and all configuration files are
+overridden by commandline arguments.
+
+Of course, this format makes the configuration files attack vectors since they
+could easily cause execution of arbitrary code. Don't put stupid stuff in them,
+or let anyone else do so.
+
+Your installation probably includes some configuration examples.
+
+.TP
+.B Configuration keys
+
+.TP
+.B DOTSIZE
+Corresponds to the \fB-d, --size\fP option.
+
+.TP
+.B TIMEOUT
+Corresponds to the \fB-t, --timeout\fP option.
+
+.TP
+.B VIEWER_EXEC
+Corresponds to the \fB-w, --viewer\fP option.
+
+
+.SH FILES
+
+.TP
+.B /etc/passqr.conf
+System-wide configuration. A skeleton version of this is probably included in
+your installation.
+
+.TP
+.B ${HOME}/.config/passqr.conf
+Per-user configuration.
+
+
+.SH ENVIRONMENT VARIABLES
+passqr does not use any environment variables, but all are passed through to \fBpass\fP.
+
+.SH DEPENDENCIES
+
+.IP \(bu 4
+Password Store (pass)
+
+.IP \(bu 4
+libqrencode
+
+.SH SEE ALSO
+.BR pass (1),
+.BR qrencode (1)
+
+.SH AUTHOR
+\fBpassqr\fP was written by
+.MT lundberg.emil@gmail.com
+Emil Lundberg
+.ME .
+The project is developed and hosted publicly on
+.UR https://github.com/emlun/passqr
+GitHub
+.UE . Bug reports, patches and feature requests are welcome in the \fBIssues\fP
+section or by e-mail.
+
+.SH COPYING
+passqr is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation, either version 2 of the License, or (at your option) any later
+version.
+
+passqr is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+passqr. If not, see <http://www.gnu.org/licenses/>.
