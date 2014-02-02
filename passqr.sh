@@ -50,50 +50,15 @@ Usage: ${PROGRAM} [options] pass-name
 
 Options (defaults):
 
-  -h, --help
-    Show this message and exit.
+  -h, --help                    Show this message and exit
+  -l, --lines N or 'all' (1)    Encode the first N lines of output from pass
+  -m, --multiline               Shorthand for --lines all
+  -s, --dotsize N (6)           Dots in generated image are N pixels wide
+  -t, --timeout N (3)           Wait N seconds before closing the image viewer
+  --version                     Show version information and exit.
+  -w, --viewer COMMAND (none)   Use COMMAND to display the QR code image
 
-  -l, --lines INTEGER or 'all' (1)
-    How many lines of output from pass to encode. If this option is not given,
-    it is assumed to be 1. If the argument is 'all', encode all output.
-
-  -m, --multiline
-    Shorthand for --lines all.
-
-  -s, --dotsize PIXELS (6)
-    Pass-through option to qrencode (there it is -s, --size).
-
-  -t, --timeout SECONDS (3)
-    Wait SECONDS seconds before closing the image viewer.
-
-  --version
-    Show version information and exit.
-
-  -w, --viewer 'COMMAND' (none)
-    Use COMMAND to display the QR code image. COMMAND will be appended with a
-    single filename. If you want to print the image to stdout, use -w cat, but
-    note that ${PROGRAM} makes no guarantee to not print anything else on
-    stdout.
-
-Configuration:
-
-  ${CONFIG[*]}
-
-  The config files are evaluated as shell scripts, but only those rows that
-  begin with 'SETTING=' where SETTING is one of the following settings:
-
-  DOTSIZE
-    Corresponds to the -d, --size option.
-
-  TIMEOUT
-    Corresponds to the -t, --timeout option.
-
-  VIEWER_EXEC
-    Corresponds to the -w, --viewer option.
-
-  Of course, the chosen format makes the the config files attack vectors since
-  they could easily execute arbitrary code. Don't put stupid stuff in them, or
-  let anyone else do so.
+For details see the man page.
 
 EOF
 }
