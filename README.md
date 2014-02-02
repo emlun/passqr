@@ -29,10 +29,16 @@ Dependencies
 ------------
 
  - [libqrencode][libqrencode]: For encoding as QR code
- - [ImageMagick][imagemagick]: For displaying QR code image
+ - Any image viewer of your choice, to be connected via a simple config file.
+   Some recommendations:
+   - display from [ImageMagick][imagemagick]
+   - [feh][feh]
+   - [qiv][qiv]
 
 [libqrencode]: http://fukuchi.org/works/qrencode/
 [imagemagick]: http://imagemagick.org
+[feh]: http://feh.finalrewind.org/
+[qiv]: http://spiegl.de/qiv/
 
 Usage
 -----
