@@ -26,7 +26,7 @@ CONFIG=(
 
 # Default settings, can be overriden by config files and options
 DOTSIZE=6
-MULTILINE=false
+LINES=1
 TIMEOUT=3
 VERBOSE=false
 VIEWER_EXEC=''
@@ -50,46 +50,15 @@ Usage: ${PROGRAM} [options] pass-name
 
 Options (defaults):
 
-  -h, --help
-    Show this message and exit.
+  -h, --help                    Show this message and exit
+  -l, --lines N or 'all' (1)    Encode the first N lines of output from pass
+  -m, --multiline               Shorthand for --lines all
+  -s, --dotsize N (6)           Dots in generated image are N pixels wide
+  -t, --timeout N (3)           Wait N seconds before closing the image viewer
+  --version                     Show version information and exit.
+  -w, --viewer COMMAND (none)   Use COMMAND to display the QR code image
 
-  -m, --multiline
-    Encode all output from pass show, not just the first line.
-
-  -s, --dotsize PIXELS (6)
-    Pass-through option to qrencode (there it is -s, --size).
-
-  -t, --timeout SECONDS (3)
-    Wait SECONDS seconds before closing the image viewer.
-
-  --version
-    Show version information and exit.
-
-  -w, --viewer 'COMMAND' (none)
-    Use COMMAND to display the QR code image. COMMAND will be appended with a
-    single filename. If you want to print the image to stdout, use -w cat, but
-    note that ${PROGRAM} makes no guarantee to not print anything else on
-    stdout.
-
-Configuration:
-
-  ${CONFIG[*]}
-
-  The config files are evaluated as shell scripts, but only those rows that
-  begin with 'SETTING=' where SETTING is one of the following settings:
-
-  DOTSIZE
-    Corresponds to the -d, --size option.
-
-  TIMEOUT
-    Corresponds to the -t, --timeout option.
-
-  VIEWER_EXEC
-    Corresponds to the -w, --viewer option.
-
-  Of course, the chosen format makes the the config files attack vectors since
-  they could easily execute arbitrary code. Don't put stupid stuff in them, or
-  let anyone else do so.
+For details see the man page.
 
 EOF
 }
@@ -101,7 +70,7 @@ by Emil Lundberg <lundberg.emil@gmail.com>
 EOF
 }
 
-ARGS="$($GETOPT -o s:hmt:w: -l dotsize:,help,multiline,timeout:,version,viewer: -n "$PROGRAM" -- "$@")"
+ARGS="$($GETOPT -o s:hl:mt:w: -l dotsize:,help,lines:,multiline,timeout:,version,viewer: -n "$PROGRAM" -- "$@")"
 if [[ $? -ne 0 ]]; then
     usage
     exit 1
@@ -114,8 +83,12 @@ while true; do
             usage
             exit 0
             ;;
+        -l|--lines)
+            shift
+            LINES=$1
+            ;;
         -m|--multiline)
-            MULTILINE=true
+            LINES=all
             ;;
         -s|--dotsize)
             shift
@@ -142,7 +115,7 @@ while true; do
 done
 
 if [[ $# -eq 0 ]]; then
-    # Must have a pass-name to pass to pass
+    # User must pass a pass-name to pass to pass
     err "Fatal: no pass-name given"
     usage
     exit 1
@@ -160,8 +133,8 @@ fi
 output=$(pass show "$@")
 passexit=$?
 if [[ $passexit -eq 0 ]]; then
-    if ! $MULTILINE; then
-        output=$(head -n1 <<< "$output")
+    if [[ $LINES != all ]]; then
+        output=$(head -n$LINES <<< "$output")
     fi
 
     tmpfile=$(mktemp --tmpdir "${PROGRAM}.XXXXXXXXXX") || exit $?

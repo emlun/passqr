@@ -29,10 +29,16 @@ Dependencies
 ------------
 
  - [libqrencode][libqrencode]: For encoding as QR code
- - [ImageMagick][imagemagick]: For displaying QR code image
+ - Any image viewer of your choice, to be connected via a simple config file.
+   Some recommendations:
+   - display from [ImageMagick][imagemagick]
+   - [feh][feh]
+   - [qiv][qiv]
 
 [libqrencode]: http://fukuchi.org/works/qrencode/
 [imagemagick]: http://imagemagick.org
+[feh]: http://feh.finalrewind.org/
+[qiv]: http://spiegl.de/qiv/
 
 Usage
 -----
@@ -44,7 +50,7 @@ Invoke `passqr` with a `pass` entry as parameter:
 This will invoke `pass show Email/zx2c4.com`, encode the first line of the
 output as a QR code and show the result on screen. The image will close
 automatically after 3 seconds, this timeout can be set using the `-t|--timeout`
-option.
+option. See `$ passqr --help` for more details and options.
 
 License
 -------
