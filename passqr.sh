@@ -26,7 +26,7 @@ CONFIG=(
 
 # Default settings, can be overriden by config files and options
 DOTSIZE=6
-MULTILINE=false
+LINES=1
 TIMEOUT=3
 VERBOSE=false
 VIEWER_EXEC=''
@@ -53,8 +53,12 @@ Options (defaults):
   -h, --help
     Show this message and exit.
 
+  -l, --lines INTEGER or 'all' (1)
+    How many lines of output from pass to encode. If this option is not given,
+    it is assumed to be 1. If the argument is 'all', encode all output.
+
   -m, --multiline
-    Encode all output from pass show, not just the first line.
+    Shorthand for --lines all.
 
   -s, --dotsize PIXELS (6)
     Pass-through option to qrencode (there it is -s, --size).
@@ -101,7 +105,7 @@ by Emil Lundberg <lundberg.emil@gmail.com>
 EOF
 }
 
-ARGS="$($GETOPT -o s:hmt:w: -l dotsize:,help,multiline,timeout:,version,viewer: -n "$PROGRAM" -- "$@")"
+ARGS="$($GETOPT -o s:hl:mt:w: -l dotsize:,help,lines:,multiline,timeout:,version,viewer: -n "$PROGRAM" -- "$@")"
 if [[ $? -ne 0 ]]; then
     usage
     exit 1
@@ -114,8 +118,12 @@ while true; do
             usage
             exit 0
             ;;
+        -l|--lines)
+            shift
+            LINES=$1
+            ;;
         -m|--multiline)
-            MULTILINE=true
+            LINES=all
             ;;
         -s|--dotsize)
             shift
@@ -160,8 +168,8 @@ fi
 output=$(pass show "$@")
 passexit=$?
 if [[ $passexit -eq 0 ]]; then
-    if ! $MULTILINE; then
-        output=$(head -n1 <<< "$output")
+    if [[ $LINES != all ]]; then
+        output=$(head -n$LINES <<< "$output")
     fi
 
     tmpfile=$(mktemp --tmpdir "${PROGRAM}.XXXXXXXXXX") || exit $?
