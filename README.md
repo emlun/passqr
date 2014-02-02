@@ -50,7 +50,7 @@ Invoke `passqr` with a `pass` entry as parameter:
 This will invoke `pass show Email/zx2c4.com`, encode the first line of the
 output as a QR code and show the result on screen. The image will close
 automatically after 3 seconds, this timeout can be set using the `-t|--timeout`
-option.
+option. See `$ passqr --help` for more details and options.
 
 License
 -------
