@@ -24,7 +24,7 @@ This will install files into the following directories:
 
  - `/etc/bash_completion.d`
  - `/usr/bin`
- -  /usr/share/man/man1
+ - `/usr/share/man/man1`
 
 Dependencies
 ------------
