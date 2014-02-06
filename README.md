@@ -22,6 +22,7 @@ Clone the `master` branch of the repo and use `make`:
 
 This will install files into the following directories:
 
+ - `/etc`
  - `/etc/bash_completion.d`
  - `/usr/bin`
  - `/usr/share/man/man1`
