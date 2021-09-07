@@ -1,5 +1,8 @@
 passqr
 ======
+
+_OBSOLETE: `pass` has this capability built in as the `pass show --qrcode` option._
+
 Export QR codes from Jason A. Donenfeld's [`pass`][pass] utility
 
 This is a simple shell script that makes it easy to export passwords stored in
